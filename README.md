@@ -117,3 +117,15 @@ MobileNetV2正式模型已保存为 `models/tomato_3class_best.pth`，详细报�
 ## Public repository artifacts
 
 The current public repository supersedes the earlier note above: trained model checkpoints and experiment outputs are included, while the dataset remains excluded.
+
+## Dataset source
+
+This project uses the PlantVillage dataset with the `color` configuration.
+
+- Hugging Face dataset: https://huggingface.co/datasets/mohanty/PlantVillage
+- Original project: https://github.com/spMohanty/PlantVillage-Dataset
+- Selected classes: `Tomato___healthy`, `Tomato___Early_blight`, and `Tomato___Late_blight`
+- Expected source directory: `archive_38class/data_38class/raw/color`
+
+After downloading the dataset, keep the class folders under the expected source directory and run the preparation command below. The repository does not include the dataset itself.
+
