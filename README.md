@@ -113,3 +113,7 @@ MobileNetV2正式模型已保存为 `models/tomato_3class_best.pth`，详细报�
 4. 使用Accuracy、Precision、Recall、Macro-F1和混淆矩阵评价；
 5. 说明PlantVillage背景较规范，真实田间泛化能力属于局限性；
 6. 论文提纲见 `论文写作提纲.md`。
+
+## Public repository artifacts
+
+The current public repository supersedes the earlier note above: trained model checkpoints and experiment outputs are included, while the dataset remains excluded.
