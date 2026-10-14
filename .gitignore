@@ -4,7 +4,13 @@ __pycache__/
 .venv/
 data/raw/
 data_tomato/
+data_tomato_5class/
 archive_38class/
 data/train/
 data/val/
 data/test/
+
+# 本地论文草稿和备份不随项目上传
+*.docx
+文档备份/
+研究综述阅读提纲与文献核查.md

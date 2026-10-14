@@ -1,4 +1,4 @@
-"""在测试集上输出分类指标和混淆矩阵。"""
+"""在番茄叶片五分类测试集上输出分类指标和混淆矩阵。"""
 
 from __future__ import annotations
 
@@ -18,15 +18,15 @@ from train import build_model
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", type=Path, default=Path("data_tomato"))
-    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_3class_best.pth"))
+    parser.add_argument("--data-dir", type=Path, default=Path("data_tomato_5class"))
+    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_5class_best.pth"))
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--workers", type=int, default=0)
-    parser.add_argument("--output-dir", type=Path, default=Path("outputs/tomato_3class"))
+    parser.add_argument("--output-dir", type=Path, default=Path("outputs/tomato_5class"))
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
+    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=True)
     classes = checkpoint["classes"]
     model_name = checkpoint.get("architecture", "mobilenet_v2")
     image_size = checkpoint.get("image_size", 224)
@@ -80,7 +80,7 @@ def main() -> None:
     figure.colorbar(image, ax=axis)
     axis.set_xlabel("Predicted label")
     axis.set_ylabel("True label")
-    axis.set_title("Tomato Leaf Disease Confusion Matrix")
+    axis.set_title("Tomato Leaf Disease Five-Class Confusion Matrix")
     axis.set_xticks(range(len(classes)))
     axis.set_yticks(range(len(classes)))
     axis.set_xticklabels(classes, rotation=90, fontsize=6)

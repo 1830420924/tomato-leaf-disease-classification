@@ -1,4 +1,4 @@
-"""训练番茄叶片三分类模型，优先使用CUDA并支持MobileNetV2与SimpleCNN。"""
+"""训练番茄叶片五分类模型，优先使用CUDA并支持MobileNetV2与SimpleCNN。"""
 
 from __future__ import annotations
 
@@ -21,8 +21,10 @@ from tqdm import tqdm
 
 
 TOMATO_CLASSES = {
+    "Tomato___Bacterial_spot",
     "Tomato___Early_blight",
     "Tomato___Late_blight",
+    "Tomato___Leaf_Mold",
     "Tomato___healthy",
 }
 
@@ -109,8 +111,9 @@ def build_loaders(
         or test_set.classes != train_set.classes
     ):
         raise RuntimeError(
-            "当前项目只支持番茄三分类，请使用 data_tomato（Tomato___healthy、"
-            "Tomato___Early_blight、Tomato___Late_blight）。"
+            "当前项目正式主线只支持指定的番茄五分类，请使用 data_tomato_5class（"
+            "Tomato___Bacterial_spot、Tomato___Early_blight、Tomato___Late_blight、"
+            "Tomato___Leaf_Mold、Tomato___healthy）。"
         )
     loader_kwargs = {
         "batch_size": batch_size,
@@ -184,7 +187,7 @@ def plot_history(history: dict, output_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", type=Path, default=Path("data_tomato"))
+    parser.add_argument("--data-dir", type=Path, default=Path("data_tomato_5class"))
     parser.add_argument("--model", choices=["mobilenet_v2", "simple_cnn"], default="mobilenet_v2")
     parser.add_argument("--epochs", type=int, default=12)
     parser.add_argument("--batch-size", type=int, default=64)
@@ -193,8 +196,8 @@ def main() -> None:
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--patience", type=int, default=3)
-    parser.add_argument("--output-dir", type=Path, default=Path("outputs/tomato_3class"))
-    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_3class_best.pth"))
+    parser.add_argument("--output-dir", type=Path, default=Path("outputs/tomato_5class"))
+    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_5class_best.pth"))
     parser.add_argument("--no-pretrained", action="store_true")
     args = parser.parse_args()
 

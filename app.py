@@ -1,4 +1,4 @@
-"""本地叶片病害可视化识别页面。"""
+"""本地番茄叶片五分类可视化识别页面。"""
 
 from pathlib import Path
 
@@ -10,19 +10,21 @@ from torchvision import transforms
 from train import build_model
 
 
-CHECKPOINT = Path("models/tomato_3class_best.pth")
+CHECKPOINT = Path("models/tomato_5class_best.pth")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 DISPLAY_NAMES = {
+    "Tomato___Bacterial_spot": "番茄细菌性斑点病",
     "Tomato___healthy": "番茄健康叶片",
     "Tomato___Early_blight": "番茄早疫病",
     "Tomato___Late_blight": "番茄晚疫病",
+    "Tomato___Leaf_Mold": "番茄叶霉病",
 }
 
 
 @st.cache_resource
 def load_model():
-    checkpoint = torch.load(CHECKPOINT, map_location=DEVICE, weights_only=False)
+    checkpoint = torch.load(CHECKPOINT, map_location=DEVICE, weights_only=True)
     classes = checkpoint["classes"]
     model_name = checkpoint.get("architecture", "mobilenet_v2")
     image_size = checkpoint.get("image_size", 224)
@@ -37,12 +39,12 @@ def load_model():
     return model, classes, transform
 
 
-st.set_page_config(page_title="番茄叶片三分类识别", page_icon="🍅", layout="centered")
-st.title("🍅 番茄叶片三分类识别系统")
+st.set_page_config(page_title="番茄叶片五分类识别", page_icon="🍅", layout="centered")
+st.title("🍅 番茄叶片五分类识别系统")
 st.caption(f"当前推理设备：{DEVICE}")
 
 if not CHECKPOINT.exists():
-    st.warning("尚未找到 models/tomato_3class_best.pth，请先运行番茄三分类训练。")
+    st.warning("尚未找到 models/tomato_5class_best.pth，请先运行番茄五分类训练。")
 else:
     model, classes, transform = load_model()
     uploaded = st.file_uploader("上传叶片图片", type=["jpg", "jpeg", "png", "bmp"])

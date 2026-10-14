@@ -1,4 +1,4 @@
-"""将番茄三分类原始图片划分为 train/val/test。"""
+"""将番茄五分类原始图片划分为 train/val/test。"""
 
 from __future__ import annotations
 
@@ -9,6 +9,13 @@ from pathlib import Path
 
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+DEFAULT_TOMATO_CLASSES = [
+    "Tomato___Bacterial_spot",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___Leaf_Mold",
+    "Tomato___healthy",
+]
 
 
 def split_counts(total: int) -> tuple[int, int, int]:
@@ -21,14 +28,14 @@ def split_counts(total: int) -> tuple[int, int, int]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, default=Path("archive_38class/data_38class/raw/color"))
-    parser.add_argument("--output", type=Path, default=Path("data_tomato"))
+    parser.add_argument("--output", type=Path, default=Path("data_tomato_5class"))
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-per-class", type=int, default=0)
     parser.add_argument(
         "--classes",
         nargs="+",
-        default=["Tomato___healthy", "Tomato___Early_blight", "Tomato___Late_blight"],
-        help="只保留指定的番茄类别",
+        default=DEFAULT_TOMATO_CLASSES.copy(),
+        help="只保留指定的番茄类别；默认使用五个番茄类别",
     )
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()

@@ -1,4 +1,4 @@
-"""命令行单张图片预测，可用于论文展示和调试。"""
+"""番茄叶片五分类的命令行单张图片预测，可用于论文展示和调试。"""
 
 from __future__ import annotations
 
@@ -15,11 +15,11 @@ from train import build_model
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", type=Path, required=True)
-    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_3class_best.pth"))
+    parser.add_argument("--checkpoint", type=Path, default=Path("models/tomato_5class_best.pth"))
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
+    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=True)
     classes = checkpoint["classes"]
     model_name = checkpoint.get("architecture", "mobilenet_v2")
     image_size = checkpoint.get("image_size", 224)
